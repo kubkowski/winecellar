@@ -19,11 +19,17 @@ Winecellar.Views = Winecellar.Views || {};
 
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);
+            this.listenTo(this.model, 'destroy', this.close);
         },
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             return this;
+        },
+
+        close: function () {
+            $(this.el).unbind();
+            $(this.el).remove();
         }
 
     });

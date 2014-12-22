@@ -13,6 +13,14 @@ Winecellar.Models = Winecellar.Models || {};
         },
 
         defaults: {
+            "id": null,
+            "name": "",
+            "grapes": "",
+            "country": "USA",
+            "region": "California",
+            "year": "",
+            "description": "",
+            "picture": ""
         },
 
         validate: function(attrs, options) {

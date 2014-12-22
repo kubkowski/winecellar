@@ -19,6 +19,9 @@ Winecellar.Views = Winecellar.Views || {};
 
         initialize: function () {
             this.listenTo(this.model, 'change', this.render);
+            this.model.bind("add", function (wine) {
+                $(self.el).append(new WineListItemView({model:wine}).render().el);
+            });
         },
 
         render: function ( eventName ) {
