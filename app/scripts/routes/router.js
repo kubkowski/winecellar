@@ -11,6 +11,10 @@ Winecellar.Routers = Winecellar.Routers || {};
         "wines/:id":"wineDetails"
       },
 
+      initialize:function () {
+        $('#header').html(new HeaderView().render().el);
+      },
+      
       list: function () {
         var wineList = new Winecellar.Collections.WineCollection();
         var wineListView = new Winecellar.View.WineListView();
