@@ -6,26 +6,52 @@ Winecellar.Routers = Winecellar.Routers || {};
     'use strict';
 
     Winecellar.Routers.Router = Backbone.Router.extend({
+
       routes: {
-        "":"list",
+        "": "list",
+        "wines/new": "newWine",
         "wines/:id":"wineDetails"
       },
 
       initialize:function () {
         $('#header').html(new HeaderView().render().el);
       },
-      
+
       list: function () {
-        var wineList = new Winecellar.Collections.WineCollection();
-        var wineListView = new Winecellar.View.WineListView();
-        wineList.fetch();
-        $('#sidebar').html(wineListView.render().el);
+        var self = this;
+        this.wineList = new Winecellar.Collections.WineCollection();
+        this.wineListView = new Winecellar.View.WineListView();
+        wineList.fetch({
+          success: function() {
+            self.wineListView = new WineListView({model:self.WineList});
+            $('#sidebar').html(self.wineListView.render().el);
+            if ( self.requestedId ) {
+              self.wineDetails(self.requestedId);
+            }
+          }
+        });
       },
 
       wineDetails: function ( id ) {
-        var wine = wineList.get(id);
-        var wineView = new Winecellar.View.WineView({model: wine});
-        $('#content').html(wineView.render().el);
+        if (this.wineList) {
+          this.wine = wineList.get(id);
+          if (this.wineView) {
+            this.wineView.close();
+          }
+          this.wineView = new Winecellar.View.WineView({model: wine});
+          $('#content').html(this.wineView.render().el);
+        } else {
+          this.requestedId = id;
+          this.list();
+        }
+      },
+
+      newWine: function () {
+        if ( app.vineView ) {
+          app.vineView.close();
+        }
+        app.vineView = new Winecellar.View.WineView({model: new Wine()});
+        $('#content').html(app.wineView.render().el);
       }
 
     });
