@@ -29,11 +29,7 @@ Winecellar.Views = Winecellar.Views || {};
         }
 
         newWine: function ( event ) {
-            if ( app.wineView ) {
-                app.wineView.close()
-            }
-            app.wineView = new WineView({model:new Wine()});
-            $('#content').html(app.wineView.render().el);
+            app.navigate("wines/new", true);
             return false;
         }
 

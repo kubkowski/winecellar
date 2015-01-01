@@ -46,7 +46,12 @@ Winecellar.Views = Winecellar.Views || {};
                 description : $('#description').val()
             });
             if ( this.model.isNew() ) {
-                wineCollection.create(this.model);
+                var self = this;
+                wineCollection.create(this.model, {
+                    success: function () {
+                        app.navigate('wines/'+self.model.id, false);
+                    }
+                });
             } else {
                 this.model.save();
             }
